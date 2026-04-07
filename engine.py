@@ -6,24 +6,15 @@ from pathlib import Path
 from google import genai
 from google.genai import types
 
-# ================== 🔥 FIXED CLIENT INIT ==================
+
+# ================== CLIENT INIT ==================
 def initialize_client():
-    """Initialize Gemini client (Cloud + Local safe)"""
+    """Initialize Gemini client using Streamlit Secrets ONLY"""
 
-    api_key = None
-
-    # Try Streamlit secrets
     try:
-        api_key = st.secrets["GEMINI_API_KEY"]
+        api_key = st.secrets["GEMINI_API_KEY"]   # 🔐 FROM STREAMLIT CLOUD
     except Exception:
-        pass
-
-    # Fallback to environment variable
-    if not api_key:
-        api_key = os.getenv("GEMINI_API_KEY")
-
-    if not api_key:
-        return None, "❌ GEMINI_API_KEY not found."
+        return None, "❌ GEMINI_API_KEY not found in Streamlit secrets"
 
     try:
         client = genai.Client(api_key=api_key)

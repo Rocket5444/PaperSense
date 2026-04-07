@@ -4,7 +4,7 @@ import streamlit as st
 from engine import initialize_client, upload_document, process_document, delete_uploaded_file
 
 
-# ================== 🔐 AUTH SYSTEM ==================
+# ================== AUTH SYSTEM ==================
 def authenticate_user():
     if "auth" not in st.session_state:
         st.session_state.auth = False
@@ -18,15 +18,15 @@ def authenticate_user():
             try:
                 correct = st.secrets["APP_AUTH_TOKEN"]
             except Exception:
-                st.error("Auth token not set in secrets")
+                st.error("❌ APP_AUTH_TOKEN not set in secrets")
                 st.stop()
 
             if token == correct:
                 st.session_state.auth = True
-                st.success("Access granted")
+                st.success("✅ Access Granted")
                 st.rerun()
             else:
-                st.error("Invalid token")
+                st.error("❌ Invalid Token")
 
         st.stop()
 
@@ -58,7 +58,7 @@ def chat_ui(client):
 def main():
     authenticate_user()
 
-    st.set_page_config(page_title="AI Doc Analyzer")
+    st.set_page_config(page_title="AI Document Analyzer", layout="wide")
     st.title("📄 AI Document Analyzer")
 
     client, err = initialize_client()
@@ -79,7 +79,7 @@ def main():
             obj = upload_document(client, file)
             if obj:
                 st.session_state.file = obj
-                st.success("File ready!")
+                st.success("✅ File ready!")
 
         if st.session_state.get("file"):
             if st.button("Delete File"):
