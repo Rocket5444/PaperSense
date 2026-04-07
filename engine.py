@@ -1,4 +1,10 @@
-@st.cache_resource
+# engine.py
+
+import streamlit as st   # 🔥 FIX: ensure this is first
+import os
+from pathlib import Path
+from google import genai # type: ignore
+from google.genai import types # type: ignore@st.cache_resource
 def initialize_client():
     """Initializes the Gemini client securely using Streamlit Secrets or ENV fallback."""
 
